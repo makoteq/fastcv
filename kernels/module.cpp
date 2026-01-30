@@ -6,6 +6,7 @@ torch::Tensor box_blur(torch::Tensor img, int blurSize);
 torch::Tensor sobel(torch::Tensor img);
 torch::Tensor dilation(torch::Tensor img, int filterSize);
 torch::Tensor erosion(torch::Tensor img, int filterSize);
+std::vector<float> calcHist(torch::Tensor img, c10::optional<torch::Tensor> mask);
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m){
     m.def("rgb2gray", &rgb_to_gray, "rgb to grayscale kernel");
@@ -13,4 +14,5 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m){
     m.def("sobel", &sobel, "sobel filter kernel");
     m.def("dilate", &dilation, "dilation kernel");
     m.def("erode", &erosion, "erosion kernel");
+    m.def("calcHist", &calcHist, "custom kernel",   py::arg("img"),  py::arg("mask") = py::none());
 }
